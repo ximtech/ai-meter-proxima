@@ -1,0 +1,89 @@
+info:
+  build:
+    version: ${version}
+  app:
+    name: AI Meter Proxima
+    description: API Documentation
+    active-profile: ${spring.profiles.active}
+    dev-description: API provides meter registration and geo ip service and etc.
+    dev-link: https://github.com/ximtech/ai-meter-proxima
+
+server:
+  port: 8094
+  error:
+    whitelabel:
+      enabled: false
+
+spring:
+  application:
+    name: "mintos-homework"
+  profiles:
+    active: ${PROFILE:dev}
+  main:
+    web-application-type: reactive
+    allow-bean-definition-overriding: false
+
+  datasource:
+    hikari:
+      minimum-idle: 1
+      idle-timeout: 10000
+      maximumPoolSize: 2
+
+  flyway:
+    enabled: true
+    locations: classpath:/db/migration
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+        
+# actuator
+management:
+  endpoint.health.show-details: always
+  health.circuitbreakers.enabled: true
+  info:
+    env:
+      enabled: true
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: info, health, caches
+    jmx:
+      exposure:
+        exclude: "*"
+  endpoint:
+    info:
+      enabled: true
+    health:
+      enabled: true
+    caches:
+      enabled: true
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      geo-ip-service:
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 3
+        minimumNumberOfCalls: 5
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 10
+        eventConsumerBufferSize: 10
+        registerHealthIndicator: true
+  retry:
+    instances:
+      geo-ip-service:
+        maxAttempts: 3
+        waitDuration: 1s
+  timelimiter:
+    instances:
+      geo-ip-service:
+        timeoutDuration: 5s
+        cancelRunningFuture: false
+        
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html

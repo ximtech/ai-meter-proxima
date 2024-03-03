@@ -1,0 +1,23 @@
+server:
+  error:
+    include-stacktrace: always
+
+spring:
+  docker:
+    compose:
+      enabled: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ai-meter-db
+    username: postgres
+    password: postgres
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format.sql: true
+
+logging:
+  config: classpath:logging/log4j-dev.yaml
