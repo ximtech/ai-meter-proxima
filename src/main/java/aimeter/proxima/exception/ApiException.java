@@ -1,4 +1,4 @@
-package aimeter.exception;
+package aimeter.proxima.exception;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

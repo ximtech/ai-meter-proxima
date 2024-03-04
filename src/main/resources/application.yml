@@ -87,3 +87,5 @@ resilience4j:
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
+
+ip.geolocation.api.key: <IP_GEO_API_KEY_HERE>

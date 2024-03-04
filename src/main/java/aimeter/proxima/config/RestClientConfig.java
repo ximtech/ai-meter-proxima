@@ -1,4 +1,4 @@
-package aimeter.config;
+package aimeter.proxima.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -8,13 +8,13 @@ import org.springframework.web.client.RestClient;
 @Configuration
 public class RestClientConfig {
 
-    @Value("${api.exchange.rate.access.key}")
-    String currencyExchangeRateApiKey;
+    @Value("${ip.geolocation.api.key}")
+    String ipGeoLocationServiceApiKey;
     
-    @Bean(name = "exchangeRateClient")
+    @Bean(name = "ipGeoLocationClient")
     public RestClient restClient() {
         return RestClient.builder()
-                .baseUrl("https://v6.exchangerate-api.com/v6/%s".formatted(currencyExchangeRateApiKey))
+                .baseUrl("https://api.ipgeolocation.io/ipgeo?apiKey=%s&fields=time_zone".formatted(ipGeoLocationServiceApiKey))
                 .build();
     }
 }
