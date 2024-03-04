@@ -18,7 +18,7 @@ import static aimeter.proxima.domain.entity.BaseEntity.*;
 @DiscriminatorColumn(name = "type")
 public abstract class AIMeterIntegration extends BaseEntity {
 
-    @Column(nullable = false)
+    @Column(nullable = false, insertable=false, updatable=false)
     @Enumerated(EnumType.STRING)
     AIMeterIntegrationType type;
 

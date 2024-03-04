@@ -50,10 +50,9 @@ public class AIMeterDevice extends BaseEntity {
     String description;
     
     @OneToOne
-    @JoinColumn(name = "config_id", referencedColumnName = "id")
+    @JoinColumn(name = "config_id")
     AIMeterConfig meterConfig;
 
     @OneToMany
-    @JoinColumn(name = "device_id", referencedColumnName = "device_id")
     Set<AIMeterData> data;
 }
