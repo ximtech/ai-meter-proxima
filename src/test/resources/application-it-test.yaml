@@ -7,3 +7,17 @@ spring:
   groovy:
     template:
       check-template-location: false
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        use_sql_comments: true
+    show-sql: true
+    
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type: DEBUG

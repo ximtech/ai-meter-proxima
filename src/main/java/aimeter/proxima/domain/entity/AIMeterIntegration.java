@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import static aimeter.proxima.domain.entity.BaseEntity.*;
+import static aimeter.proxima.domain.entity.BaseEntity.DEFAULT_SCHEMA;
 
 @Entity
 @Getter
@@ -18,14 +18,14 @@ import static aimeter.proxima.domain.entity.BaseEntity.*;
 @DiscriminatorColumn(name = "type")
 public abstract class AIMeterIntegration extends BaseEntity {
 
-    @Column(nullable = false, insertable=false, updatable=false)
+    @Column(nullable = false, insertable = false, updatable = false)
     @Enumerated(EnumType.STRING)
     AIMeterIntegrationType type;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     AIMeterIntegrationStatus status;
-    
+
     @Column
     String description;
 }

@@ -32,6 +32,7 @@ spring:
   flyway:
     enabled: true
     locations: classpath:/db/migration
+    schemas: meter
 
   jpa:
     hibernate:
@@ -88,4 +89,4 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
 
-ip.geolocation.api.key: <IP_GEO_API_KEY_HERE>
+ip.geolocation.api.key: ${IP_GEOLOCATION_API_KEY}

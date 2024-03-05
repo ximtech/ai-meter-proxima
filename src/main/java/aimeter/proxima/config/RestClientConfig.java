@@ -7,14 +7,11 @@ import org.springframework.web.client.RestClient;
 
 @Configuration
 public class RestClientConfig {
-
-    @Value("${ip.geolocation.api.key}")
-    String ipGeoLocationServiceApiKey;
     
     @Bean(name = "ipGeoLocationClient")
     public RestClient restClient() {
         return RestClient.builder()
-                .baseUrl("https://api.ipgeolocation.io/ipgeo?apiKey=%s&fields=time_zone".formatted(ipGeoLocationServiceApiKey))
+                .baseUrl("https://api.ipgeolocation.io/ipgeo")
                 .build();
     }
 }

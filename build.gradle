@@ -19,6 +19,9 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    all {
+        exclude group: 'commons-logging', module: 'commons-logging'
+    }
 }
 
 repositories {
@@ -47,7 +50,11 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j'
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'   // log4j2 yaml configuration support
-    
+
+    // Apache utils
+    implementation 'org.apache.commons:commons-lang3:3.0'
+    implementation 'commons-validator:commons-validator:1.8.0'
+
     // Local development tools
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     developmentOnly 'org.springframework.boot:spring-boot-docker-compose'

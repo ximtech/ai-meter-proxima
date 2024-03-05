@@ -20,7 +20,7 @@ public abstract class BaseEntity {
     public static final String DEFAULT_SCHEMA = "meter";  
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @Version

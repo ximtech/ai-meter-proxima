@@ -1,8 +1,3 @@
-DROP TABLE IF EXISTS meter.ai_meter_integration CASCADE;
-DROP TABLE IF EXISTS meter.ai_meter_config CASCADE;
-DROP TABLE IF EXISTS meter.ai_meter_device CASCADE;
-DROP TABLE IF EXISTS meter.ai_meter_data CASCADE;
-
 CREATE TABLE meter.ai_meter_config
 (
     id SERIAL PRIMARY KEY,
@@ -12,7 +7,7 @@ CREATE TABLE meter.ai_meter_config
 
     device_name VARCHAR(255),
     device_ip VARCHAR(32),
-    device_timezone VARCHAR(128),
+    device_time_zone VARCHAR(128),
     cron_expression VARCHAR(32),
     last_execution_time TIMESTAMP
 );

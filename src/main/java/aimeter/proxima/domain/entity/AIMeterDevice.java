@@ -8,10 +8,11 @@ import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import static aimeter.proxima.domain.entity.BaseEntity.*;
+import static aimeter.proxima.domain.entity.BaseEntity.DEFAULT_SCHEMA;
 
 @Entity
 @Getter
@@ -54,5 +55,5 @@ public class AIMeterDevice extends BaseEntity {
     AIMeterConfig meterConfig;
 
     @OneToMany
-    Set<AIMeterData> data;
+    Set<AIMeterData> data = new HashSet<>();
 }

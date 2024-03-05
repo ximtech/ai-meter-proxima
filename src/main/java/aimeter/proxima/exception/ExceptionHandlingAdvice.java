@@ -9,6 +9,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.support.WebExchangeBindException;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
@@ -42,10 +43,10 @@ public class ExceptionHandlingAdvice {
         }).publishOn(Schedulers.boundedElastic());
     }
 
-    @ExceptionHandler({ResponseStatusException.class})  // json binding and other framework exceptions
-    public Mono<ResponseEntity<Map<String, String>>> handleNestedExceptions(ResponseStatusException e) {
+    @ExceptionHandler({HttpClientErrorException.class})  // rest client exceptions
+    public Mono<ResponseEntity<Map<String, String>>> restClientExceptions(HttpClientErrorException e) {
         return Mono.just(ResponseEntity.status(e.getStatusCode())
-                .body(Map.of("error", Objects.requireNonNull(e.getReason()))))
+                .body(Map.of("error", Objects.requireNonNull(e.getMessage()))))
                 .publishOn(Schedulers.boundedElastic());
     }
 

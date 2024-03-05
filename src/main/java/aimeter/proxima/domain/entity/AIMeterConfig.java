@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 import static aimeter.proxima.domain.entity.BaseEntity.DEFAULT_SCHEMA;
@@ -42,5 +43,5 @@ public class AIMeterConfig extends BaseEntity {
 
     @OneToMany
     @JoinColumn(name = "config_id")
-    Set<AIMeterIntegration> integrations;
+    Set<AIMeterIntegration> integrations = new HashSet<>();
 }
