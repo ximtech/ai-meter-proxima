@@ -22,20 +22,20 @@ public class GeoIPLocationService {
 
     @Value("${ip.geolocation.api.key}")
     String ipGeoLocationServiceApiKey;
-    
+
     @Qualifier("ipGeoLocationClient")
     final RestClient restClient;
 
     @Cacheable(cacheNames = "geoIpCache")
     public GeoIpDTO getGeoIpLocationData(String ipAddress) {
         return Optional.ofNullable(restClient.get()
-                .uri((UriBuilder uriBuilder) -> uriBuilder
-                        .queryParam("apiKey", ipGeoLocationServiceApiKey)
-                        .queryParam("ip", ipAddress)
-                        .build())
-                .retrieve()
-                .toEntity(GeoIpDTO.class)
-                .getBody())
+                        .uri((UriBuilder uriBuilder) -> uriBuilder
+                                .queryParam("apiKey", ipGeoLocationServiceApiKey)
+                                .queryParam("ip", ipAddress)
+                                .build())
+                        .retrieve()
+                        .toEntity(GeoIpDTO.class)
+                        .getBody())
                 .orElseThrow(() -> new ApiException("Unable to receive geo ip location data from API", HttpStatus.SERVICE_UNAVAILABLE));
     }
 }

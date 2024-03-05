@@ -41,6 +41,6 @@ public class HttpUtils {
                 .map((String ipListAsString) -> ipListAsString.split(",")[0])
                 .filter(IP_VALIDATOR::isValid)
                 .findFirst()
-                .orElse(Objects.requireNonNull(request.getRemoteAddress().getAddress()).getHostAddress());
+                .orElse(Objects.requireNonNull(request.getRemoteAddress()).getAddress().getHostAddress());
     }
 }

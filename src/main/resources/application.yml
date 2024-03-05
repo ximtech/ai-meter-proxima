@@ -65,7 +65,7 @@ management:
 resilience4j:
   circuitbreaker:
     instances:
-      geo-ip-service:
+      circuit-breaker-service:
         failureRateThreshold: 50
         waitDurationInOpenState: 5s
         permittedNumberOfCallsInHalfOpenState: 3
@@ -76,17 +76,19 @@ resilience4j:
         registerHealthIndicator: true
   retry:
     instances:
-      geo-ip-service:
+      retry-limiter-service:
         maxAttempts: 3
         waitDuration: 1s
   timelimiter:
     instances:
-      geo-ip-service:
+      time-limiter-service:
         timeoutDuration: 5s
         cancelRunningFuture: false
         
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
+  api-docs:
+    enabled: false
 
 ip.geolocation.api.key: ${IP_GEOLOCATION_API_KEY}
