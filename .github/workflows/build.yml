@@ -22,7 +22,7 @@ jobs:
         cache: 'gradle'
 
     - name: Build And Run Integration Tests
-      run: gradle clean build --info --stacktrace
+      run: gradle clean build --stacktrace
 
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v4.0.1
