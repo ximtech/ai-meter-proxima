@@ -9,7 +9,7 @@ info:
     dev-link: https://github.com/ximtech/ai-meter-proxima
 
 server:
-  port: 8094
+  port: ${PORT:8094}
   error:
     whitelabel:
       enabled: false
