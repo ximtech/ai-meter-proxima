@@ -6,3 +6,13 @@
 
 ## TODO:
 - Service description
+- Heroku deploy
+
+
+### Heroku CLI commands
+
+- heroku login
+- heroku create --app ai-meter-proxima
+- git push heroku main
+- heroku ps
+- heroku logs --tail

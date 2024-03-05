@@ -20,6 +20,6 @@ public class RouterConfig {
         return RouterFunctions.route()
                 .GET("/", accept(MediaType.TEXT_PLAIN), 
                         (ServerRequest request) -> 
-                                ServerResponse.permanentRedirect(URI.create("/actuator/health")).bodyValue("")).build();
+                                ServerResponse.permanentRedirect(URI.create("/actuator/info")).bodyValue("")).build();
     }
 }

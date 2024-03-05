@@ -10,6 +10,7 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import java.net.InetAddress;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -32,9 +33,7 @@ public class HttpUtils {
     );
 
     public static String getIPFromRequest(ServerHttpRequest request) {
-        String ipAddress = getHostIpAddress();
-        return StringUtils.isNotEmpty(ipAddress) ? ipAddress :
-                IP_HEADER_CANDIDATES.stream()
+        return IP_HEADER_CANDIDATES.stream()
                 .filter((String header) -> {
                     String ipListAsString = request.getHeaders().getFirst(header);
                     return StringUtils.isNotBlank(ipListAsString) && !ipListAsString.equalsIgnoreCase("unknown");
@@ -42,15 +41,6 @@ public class HttpUtils {
                 .map((String ipListAsString) -> ipListAsString.split(",")[0])
                 .filter(IP_VALIDATOR::isValid)
                 .findFirst()
-                .orElse(request.getRemoteAddress().getAddress().getHostAddress());
-    }
-    
-    private static String getHostIpAddress() {
-        try {
-            return InetAddress.getLocalHost().getHostAddress();
-        } catch (Exception e) {
-            log.warn("Unknown IP address: {}", e.toString());
-            return null;
-        }
+                .orElse(Objects.requireNonNull(request.getRemoteAddress().getAddress()).getHostAddress());
     }
 }
