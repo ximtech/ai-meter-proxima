@@ -28,6 +28,14 @@ repositories {
     mavenCentral()
 }
 
+jar {
+    enabled = false
+}
+
+bootJar {
+    archivesBaseName = 'ai-meter-proxima'
+}
+
 springBoot {
     buildInfo()
 }

@@ -21,3 +21,5 @@ logging:
       hibernate:
         SQL: DEBUG
         type: DEBUG
+
+ip.geolocation.api.key: 4430a702cbef4a76ba8134783238cf8d
