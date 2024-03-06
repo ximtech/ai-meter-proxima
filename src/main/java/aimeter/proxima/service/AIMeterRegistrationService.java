@@ -4,7 +4,8 @@ import aimeter.proxima.domain.entity.AIMeterConfig;
 import aimeter.proxima.domain.entity.AIMeterDevice;
 import aimeter.proxima.domain.repository.AIMeterConfigRepository;
 import aimeter.proxima.domain.repository.AIMeterDeviceRepository;
-import aimeter.proxima.dto.AIMeterRegistrationRequest;
+import aimeter.proxima.dto.AIMeterCompleteRegistrationRequest;
+import aimeter.proxima.dto.AIMeterInitialRegistrationRequest;
 import aimeter.proxima.dto.GeoIpDTO;
 import aimeter.proxima.exception.ApiException;
 import jakarta.transaction.Transactional;
@@ -12,6 +13,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import static aimeter.proxima.utils.DateTimeFormatConstants.FORMAT_DD_MM_YYY_HH_MM;
 
 @Slf4j
 @Service
@@ -23,7 +29,7 @@ public class AIMeterRegistrationService {
     final GeoIPLocationService geoIPLocationService;
     
     @Transactional
-    public GeoIpDTO performDeviceRegistration(String ipAddress, AIMeterRegistrationRequest request) {
+    public GeoIpDTO performDeviceInitialRegistration(String ipAddress, AIMeterInitialRegistrationRequest request) {
         AIMeterDevice meterDevice = aiMeterDeviceRepository.findAIMeterDeviceOrThrow(request.deviceId());
         GeoIpDTO geoIpData = geoIPLocationService.getGeoIpLocationData(ipAddress);
         meterDevice.setRegistered(true);
@@ -36,6 +42,18 @@ public class AIMeterRegistrationService {
         aiMeterDeviceRepository.save(meterDevice);
         return geoIpData;
     }
-    
-    
+
+    public void performDeviceCompleteRegistration(AIMeterCompleteRegistrationRequest request) {
+        AIMeterDevice meterDevice = aiMeterDeviceRepository.findRegisteredAIMeterDevice(request.deviceId())
+                .orElseThrow(() -> new ApiException("Device with id: [%s] is not registered or not exist".formatted(request.deviceId()), HttpStatus.NOT_FOUND));
+
+        AIMeterConfig meterConfig = meterDevice.getMeterConfig();
+        meterConfig.setDeviceName(request.deviceName());
+        meterConfig.setCronExpression(request.cronExpression());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMAT_DD_MM_YYY_HH_MM);
+        LocalDateTime lastJobExecutionDate = LocalDateTime.parse(request.lastExecutionTime(), formatter);
+        meterConfig.setLastExecutionTime(lastJobExecutionDate);
+        meterConfig.setDeviceTimeZone(request.timeZone());
+        aiMeterConfigRepository.save(meterConfig);
+    }
 }

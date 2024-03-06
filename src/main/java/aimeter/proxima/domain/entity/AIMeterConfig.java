@@ -2,6 +2,7 @@ package aimeter.proxima.domain.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -37,11 +38,4 @@ public class AIMeterConfig extends BaseEntity {
 
     @Column
     LocalDateTime lastExecutionTime;
-    
-    @OneToOne(mappedBy = "meterConfig")
-    AIMeterDevice device;
-
-    @OneToMany
-    @JoinColumn(name = "config_id")
-    Set<AIMeterIntegration> integrations = new HashSet<>();
 }

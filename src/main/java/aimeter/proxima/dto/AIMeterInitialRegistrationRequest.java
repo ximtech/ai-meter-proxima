@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
-public record AIMeterRegistrationRequest(
+public record AIMeterInitialRegistrationRequest(
         @NotNull(message = "Device id can't be null")
         @JsonProperty("device_id")
         UUID deviceId,

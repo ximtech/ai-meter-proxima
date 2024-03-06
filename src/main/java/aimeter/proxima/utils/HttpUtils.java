@@ -38,7 +38,7 @@ public class HttpUtils {
                     String ipListAsString = request.getHeaders().getFirst(header);
                     return StringUtils.isNotBlank(ipListAsString) && !ipListAsString.equalsIgnoreCase("unknown");
                 })
-                .map((String ipListAsString) -> ipListAsString.split(",")[0])
+                .map((String header) -> request.getHeaders().getFirst(header).split(",")[0])
                 .filter(IP_VALIDATOR::isValid)
                 .findFirst()
                 .orElse(Objects.requireNonNull(request.getRemoteAddress()).getAddress().getHostAddress());

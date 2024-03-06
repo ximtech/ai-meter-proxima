@@ -14,7 +14,7 @@ public interface AIMeterDeviceRepository extends JpaRepository<AIMeterDevice, Lo
     
     @Query("""
         FROM AIMeterDevice meter
-        LEFT JOIN meter.meterConfig config
+        LEFT JOIN FETCH meter.meterConfig config
         WHERE meter.deviceId = :deviceId
         AND meter.deleted = FALSE""")
     Optional<AIMeterDevice> findAIMeterDevice(@Param("deviceId") UUID deviceId);
@@ -23,5 +23,13 @@ public interface AIMeterDeviceRepository extends JpaRepository<AIMeterDevice, Lo
         return findAIMeterDevice(deviceId)
                 .orElseThrow(() -> new ApiException("Device with id: [%s] do not exist".formatted(deviceId), HttpStatus.NOT_FOUND));
     }
+
+    @Query("""
+        FROM AIMeterDevice meter
+        JOIN FETCH meter.meterConfig config
+        WHERE meter.deviceId = :deviceId
+        AND meter.deleted = FALSE
+        AND meter.registered = TRUE""")
+    Optional<AIMeterDevice> findRegisteredAIMeterDevice(@Param("deviceId") UUID deviceId);
 
 }

@@ -21,10 +21,10 @@ public abstract class AIMeterIntegration extends BaseEntity {
     @Column(nullable = false, insertable = false, updatable = false)
     @Enumerated(EnumType.STRING)
     AIMeterIntegrationType type;
-
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    AIMeterIntegrationStatus status;
+    
+    @OneToOne
+    @JoinColumn(name = "device_id")
+    AIMeterDevice device;
 
     @Column
     String description;

@@ -55,5 +55,8 @@ public class AIMeterDevice extends BaseEntity {
     AIMeterConfig meterConfig;
 
     @OneToMany
+    Set<AIMeterIntegration> integrations = new HashSet<>();
+
+    @OneToMany
     Set<AIMeterData> data = new HashSet<>();
 }

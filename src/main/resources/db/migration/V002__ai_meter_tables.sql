@@ -12,22 +12,6 @@ CREATE TABLE meter.ai_meter_config
     last_execution_time TIMESTAMP
 );
 
-CREATE TABLE meter.ai_meter_integration
-(
-    id SERIAL PRIMARY KEY,
-    version BIGINT NOT NULL DEFAULT 0,
-    date_created TIMESTAMP NOT NULL,
-    date_updated TIMESTAMP NOT NULL,
-
-    type VARCHAR(32),
-    status VARCHAR(32),
-    config_id SERIAL,
-    description TEXT,
-
-    telegram_chat_id BIGINT,
-    FOREIGN KEY (config_id) REFERENCES meter.ai_meter_config
-);
-
 CREATE TABLE meter.ai_meter_device
 (
     id SERIAL PRIMARY KEY,
@@ -53,6 +37,21 @@ CREATE TABLE meter.ai_meter_device
 
 CREATE INDEX idx_device_id ON meter.ai_meter_device(device_id);
 
+CREATE TABLE meter.ai_meter_integration
+(
+    id SERIAL PRIMARY KEY,
+    version BIGINT NOT NULL DEFAULT 0,
+    date_created TIMESTAMP NOT NULL,
+    date_updated TIMESTAMP NOT NULL,
+
+    type VARCHAR(32),
+    device_id UUID NOT NULL,
+    description TEXT,
+
+    telegram_chat_id BIGINT,
+    FOREIGN KEY (device_id) REFERENCES meter.ai_meter_device(device_id)
+);
+
 CREATE TABLE IF NOT EXISTS meter.ai_meter_data
 (
     id SERIAL PRIMARY KEY,
@@ -71,3 +70,16 @@ CREATE TABLE IF NOT EXISTS meter.ai_meter_data
 );
 
 CREATE INDEX idx_meter_data_device_id ON meter.ai_meter_data(device_id);
+
+CREATE TABLE meter.ai_meter_data_transaction
+(
+    id SERIAL PRIMARY KEY,
+    version BIGINT NOT NULL DEFAULT 0,
+
+    status VARCHAR(32) NOT NULL,
+    data_id SERIAL NOT NULL,
+    integration_id SERIAL NOT NULL,
+
+    FOREIGN KEY (data_id) REFERENCES meter.ai_meter_data(id),
+    FOREIGN KEY (integration_id) REFERENCES meter.ai_meter_integration(id)
+);
