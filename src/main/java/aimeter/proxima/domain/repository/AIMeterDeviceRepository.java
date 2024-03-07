@@ -32,4 +32,9 @@ public interface AIMeterDeviceRepository extends JpaRepository<AIMeterDevice, Lo
         AND meter.registered = TRUE""")
     Optional<AIMeterDevice> findRegisteredAIMeterDevice(@Param("deviceId") UUID deviceId);
 
+    default AIMeterDevice findRegisteredAIMeterDeviceOrThrow(UUID deviceId) {
+        return findRegisteredAIMeterDevice(deviceId)
+                .orElseThrow(() -> new ApiException("Device with id: [%s] is not registered or not exist".formatted(deviceId), HttpStatus.NOT_FOUND));
+    }
+
 }

@@ -20,7 +20,7 @@ import reactor.core.scheduler.Schedulers;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/api/register/device")
+@RequestMapping(value = "/api/device/registration")
 @RequiredArgsConstructor
 public class AiMeterRegistrationController {
     
@@ -44,5 +44,4 @@ public class AiMeterRegistrationController {
                     return ResponseEntity.ok("Config saved");})
                 .publishOn(Schedulers.boundedElastic());
     }
-
 }

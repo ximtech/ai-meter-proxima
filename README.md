@@ -11,7 +11,7 @@
 ### Heroku CLI commands
 
 - `heroku login`
-- `heroku create --app ai-meter-proxima`
+- `heroku create --app ai-meter-proxima --region eu`
 - `git push heroku main`
 - `heroku ps`
 - `heroku logs --tail`

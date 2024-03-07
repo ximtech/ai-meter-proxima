@@ -2,6 +2,7 @@ package aimeter.proxima.dto;
 
 import aimeter.proxima.exception.validator.CronValidator;
 import aimeter.proxima.exception.validator.DateTimeValidator;
+import aimeter.proxima.exception.validator.TimeZoneValidator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -31,6 +32,7 @@ public record AIMeterCompleteRegistrationRequest(
 
         @NotNull(message = "Time zone can't be null")
         @NotBlank(message = "Time zone can't be empty")
+        @TimeZoneValidator
         @JsonProperty("time_zone")
         String timeZone
 ) {

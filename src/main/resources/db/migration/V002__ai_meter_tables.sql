@@ -37,14 +37,14 @@ CREATE TABLE meter.ai_meter_device
 
 CREATE INDEX idx_device_id ON meter.ai_meter_device(device_id);
 
-CREATE TABLE meter.ai_meter_integration
+CREATE TABLE meter.ai_meter_subscription
 (
     id SERIAL PRIMARY KEY,
     version BIGINT NOT NULL DEFAULT 0,
     date_created TIMESTAMP NOT NULL,
     date_updated TIMESTAMP NOT NULL,
 
-    type VARCHAR(32),
+    subscription_type VARCHAR(64),
     device_id UUID NOT NULL,
     description TEXT,
 
@@ -60,8 +60,8 @@ CREATE TABLE IF NOT EXISTS meter.ai_meter_data
     date_updated TIMESTAMP NOT NULL,
 
     device_id UUID NOT NULL,
-    mime_type CHARACTER VARYING(255) NOT NULL,
-    image_name CHARACTER VARYING(255) NOT NULL,
+    mime_type VARCHAR(255) NOT NULL,
+    image_name VARCHAR(255) NOT NULL,
     image_size BIGINT NOT NULL,
     image_data BYTEA NOT NULL,
     reading NUMERIC,
@@ -77,9 +77,25 @@ CREATE TABLE meter.ai_meter_data_transaction
     version BIGINT NOT NULL DEFAULT 0,
 
     status VARCHAR(32) NOT NULL,
-    data_id SERIAL NOT NULL,
-    integration_id SERIAL NOT NULL,
+    data_id BIGINT NOT NULL,
+    subscription_id BIGINT NOT NULL,
 
     FOREIGN KEY (data_id) REFERENCES meter.ai_meter_data(id),
-    FOREIGN KEY (integration_id) REFERENCES meter.ai_meter_integration(id)
+    FOREIGN KEY (subscription_id) REFERENCES meter.ai_meter_subscription(id)
 );
+
+CREATE TABLE meter.ai_meter_token
+(
+    id SERIAL PRIMARY KEY,
+    version BIGINT NOT NULL DEFAULT 0,
+    date_created TIMESTAMP NOT NULL,
+    
+    token_type VARCHAR(64) NOT NULL,
+    access_token VARCHAR(255) NOT NULL,
+    meter_id BIGINT NOT NULL,
+    expires_in TIMESTAMP NOT NULL,
+
+    FOREIGN KEY (meter_id) REFERENCES meter.ai_meter_device(id)
+);
+
+CREATE INDEX idx_meter_access_token ON meter.ai_meter_token(access_token);

@@ -16,7 +16,7 @@ server:
 
 spring:
   application:
-    name: "mintos-homework"
+    name: "ai-meter-proxima"
   profiles:
     active: ${PROFILE:dev}
   main:
@@ -38,7 +38,7 @@ spring:
     hibernate:
       ddl-auto: none
     show-sql: false
-        
+
 # actuator
 management:
   endpoint.health.show-details: always
@@ -91,4 +91,8 @@ springdoc:
   api-docs:
     enabled: false
 
+
 ip.geolocation.api.key: ${IP_GEOLOCATION_API_KEY}
+app.host.name: ${HOST_NAME:http://localhost:${server.port}}
+
+telegram.bot.name: AiMeter_bot

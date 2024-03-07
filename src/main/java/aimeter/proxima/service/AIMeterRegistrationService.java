@@ -44,9 +44,7 @@ public class AIMeterRegistrationService {
     }
 
     public void performDeviceCompleteRegistration(AIMeterCompleteRegistrationRequest request) {
-        AIMeterDevice meterDevice = aiMeterDeviceRepository.findRegisteredAIMeterDevice(request.deviceId())
-                .orElseThrow(() -> new ApiException("Device with id: [%s] is not registered or not exist".formatted(request.deviceId()), HttpStatus.NOT_FOUND));
-
+        AIMeterDevice meterDevice = aiMeterDeviceRepository.findRegisteredAIMeterDeviceOrThrow(request.deviceId());
         AIMeterConfig meterConfig = meterDevice.getMeterConfig();
         meterConfig.setDeviceName(request.deviceName());
         meterConfig.setCronExpression(request.cronExpression());

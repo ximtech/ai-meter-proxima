@@ -1,6 +1,6 @@
 package aimeter.proxima.domain.entity;
 
-import aimeter.proxima.domain.AIMeterIntegrationStatus;
+import aimeter.proxima.domain.AIMeterTransactionStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,13 +26,13 @@ public class AIMeterDataTransaction {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    AIMeterIntegrationStatus status;
+    AIMeterTransactionStatus status;
     
     @OneToOne
     @JoinColumn(name = "data_id")
     AIMeterData data;
 
     @OneToOne
-    @JoinColumn(name = "integration_id")
-    AIMeterIntegration integration;
+    @JoinColumn(name = "subscription_id")
+    AIMeterSubscription subscription;
 }

@@ -19,3 +19,5 @@ spring:
 
 logging:
   config: classpath:logging/log4j-dev.yaml
+  level:
+    org.thymeleaf: INFO
