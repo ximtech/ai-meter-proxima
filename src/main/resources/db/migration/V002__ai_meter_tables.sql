@@ -5,7 +5,7 @@ CREATE TABLE meter.ai_meter_config
     date_created TIMESTAMP NOT NULL,
     date_updated TIMESTAMP NOT NULL,
 
-    device_name VARCHAR(255),
+    device_name VARCHAR(255) NOT NULL,
     device_ip VARCHAR(32),
     device_time_zone VARCHAR(128),
     cron_expression VARCHAR(32),
@@ -45,11 +45,11 @@ CREATE TABLE meter.ai_meter_subscription
     date_updated TIMESTAMP NOT NULL,
 
     subscription_type VARCHAR(64),
-    device_id UUID NOT NULL,
+    meter_id BIGINT NOT NULL,
     description TEXT,
 
     telegram_chat_id BIGINT,
-    FOREIGN KEY (device_id) REFERENCES meter.ai_meter_device(device_id)
+    FOREIGN KEY (meter_id) REFERENCES meter.ai_meter_device(id)
 );
 
 CREATE TABLE IF NOT EXISTS meter.ai_meter_data
@@ -59,17 +59,15 @@ CREATE TABLE IF NOT EXISTS meter.ai_meter_data
     date_created TIMESTAMP NOT NULL,
     date_updated TIMESTAMP NOT NULL,
 
-    device_id UUID NOT NULL,
+    meter_id BIGINT NOT NULL,
     mime_type VARCHAR(255) NOT NULL,
     image_name VARCHAR(255) NOT NULL,
     image_size BIGINT NOT NULL,
     image_data BYTEA NOT NULL,
     reading NUMERIC,
 
-    FOREIGN KEY (device_id) REFERENCES meter.ai_meter_device(device_id)
+    FOREIGN KEY (meter_id) REFERENCES meter.ai_meter_device(id)
 );
-
-CREATE INDEX idx_meter_data_device_id ON meter.ai_meter_data(device_id);
 
 CREATE TABLE meter.ai_meter_data_transaction
 (

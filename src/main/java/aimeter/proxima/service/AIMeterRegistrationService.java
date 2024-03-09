@@ -35,6 +35,7 @@ public class AIMeterRegistrationService {
         meterDevice.setRegistered(true);
         meterDevice.setBatteryLevel(request.batteryLevel());
         AIMeterConfig meterConfig = meterDevice.getMeterConfig() == null ? new AIMeterConfig() : meterDevice.getMeterConfig();
+        meterConfig.setDeviceName(request.deviceName());
         meterConfig.setDeviceIp(geoIpData.ip());
         meterConfig.setDeviceTimeZone(geoIpData.timeZone().name());
         meterDevice.setMeterConfig(meterConfig);

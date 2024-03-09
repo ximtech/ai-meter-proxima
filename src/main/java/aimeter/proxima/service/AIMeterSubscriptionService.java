@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 public class AIMeterSubscriptionService {
 
     public static final int OTP_PASSWORD_LENGTH = 4;
-    public static final int EXPIRATION_MINUTES = 20;
+    public static final int EXPIRATION_MINUTES = 5;
     public static final int MAX_ALLOWED_ACTIVE_OTP_COUNT = 5;
 
     @Value("${app.host.name}")

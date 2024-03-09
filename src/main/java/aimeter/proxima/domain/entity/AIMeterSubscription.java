@@ -22,7 +22,7 @@ public abstract class AIMeterSubscription extends BaseEntity {
     AIMeterSubscriptionType type;
     
     @OneToOne
-    @JoinColumn(name = "device_id")
+    @JoinColumn(name = "meter_id")
     AIMeterDevice device;
 
     @Column

@@ -36,6 +36,6 @@ public class AIMeterData extends BaseEntity {
     BigDecimal reading;
 
     @ManyToOne
-    @JoinColumn(name = "device_id")
+    @JoinColumn(name = "meter_id")
     AIMeterDevice device;
 }

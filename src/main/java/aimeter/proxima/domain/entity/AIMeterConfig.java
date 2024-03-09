@@ -24,7 +24,7 @@ import static aimeter.proxima.domain.entity.BaseEntity.DEFAULT_SCHEMA;
 @Table(name = "ai_meter_config", schema = DEFAULT_SCHEMA)
 public class AIMeterConfig extends BaseEntity {
     
-    @Column
+    @Column(nullable = false)
     String deviceName;
 
     @Column
