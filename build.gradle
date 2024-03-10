@@ -8,7 +8,7 @@ plugins {
 }
 
 group = 'ai-meter-proxima'
-version = '1.0.0'
+version = '1.1.0'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
@@ -59,6 +59,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'   // log4j2 yaml configuration support
 
     // Apache utils
+    implementation "commons-io:commons-io:2.11.0"
     implementation 'org.apache.commons:commons-lang3:3.0'
     implementation 'commons-validator:commons-validator:1.8.0'
     // Local development tools
@@ -71,6 +72,8 @@ dependencies {
     implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.0.3'
     // Template engine
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:3.2.3'
+    // IronMQ
+    implementation 'io.iron.ironmq:ironmq:3.0.5'
     
     runtimeOnly 'org.postgresql:postgresql'
     compileOnly 'org.projectlombok:lombok'

@@ -3,6 +3,7 @@ package aimeter.proxima.domain.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -29,7 +30,7 @@ public class AIMeterData extends BaseEntity {
     @Column
     long imageSize;
 
-    @Column
+    @Lob
     byte[] imageData;
 
     @Column

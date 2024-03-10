@@ -22,4 +22,13 @@ logging:
         SQL: DEBUG
         type: DEBUG
 
-ip.geolocation.api.key: 4430a702cbef4a76ba8134783238cf8d
+ironmq:
+  project:
+    id: test_iron_mq_project_id
+  token: test23ujkh5jk34h534j2h
+  host: mq-aws-us-east-1-1.iron.io
+
+ip:
+  geolocation:
+    api:
+      key: 4430a702cbef4a76ba8134783238cf8d

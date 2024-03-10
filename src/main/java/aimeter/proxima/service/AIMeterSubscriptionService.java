@@ -45,8 +45,7 @@ public class AIMeterSubscriptionService {
                             appHostName, subscriptionType.name().toLowerCase(), meterDevice.getDeviceId());
                     String iconLink = "%s/%s/%s".formatted(appHostName, RouterConfig.IMAGES_ROOT_PATH, subscriptionType.getIconName());
                     return new AIMeterSubscriptionDTO(subscriptionType.getDisplayName(), subscriptionLink, iconLink);
-                })
-                .collect(Collectors.toList());
+                }).collect(Collectors.toList());
     }
     
     public String getIntegrationViewTemplate(String subscriptionType, UUID deviceId, Model model) {
@@ -55,6 +54,7 @@ public class AIMeterSubscriptionService {
         switch (type) {
             case TELEGRAM -> setupTelegramSubscription(meterDevice, model);
             case WHATSAPP -> {
+                // TODO: create subscription
             }
         }
         return type.name().toLowerCase();
