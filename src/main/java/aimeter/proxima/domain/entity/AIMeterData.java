@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import static aimeter.proxima.domain.entity.BaseEntity.DEFAULT_SCHEMA;
 
@@ -21,17 +22,20 @@ import static aimeter.proxima.domain.entity.BaseEntity.DEFAULT_SCHEMA;
 @Table(name = "ai_meter_data", schema = DEFAULT_SCHEMA)
 public class AIMeterData extends BaseEntity {
 
-    @Column
+    @Column(nullable = false)
     String mimeType;
 
-    @Column
+    @Column(nullable = false)
     String imageName;
 
-    @Column
+    @Column(nullable = false)
     long imageSize;
 
-    @Lob
+    @Column(nullable = false)
     byte[] imageData;
+
+    @Column(nullable = false)
+    LocalDateTime imageDate;
 
     @Column
     BigDecimal reading;

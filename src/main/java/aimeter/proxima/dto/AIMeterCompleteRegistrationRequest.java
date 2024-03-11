@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
-import static aimeter.proxima.utils.DateTimeFormatConstants.FORMAT_DD_MM_YYY_HH_MM;
+import static aimeter.proxima.utils.DateTimeFormatConstants.FORMAT_YYYY_MM_DD_HH_MM;
 
 public record AIMeterCompleteRegistrationRequest(
         @NotNull(message = "Device id can't be null")
@@ -26,7 +26,7 @@ public record AIMeterCompleteRegistrationRequest(
         String cronExpression,
 
         @NotNull(message = "Last execution time can't be null")
-        @DateTimeValidator(pattern = FORMAT_DD_MM_YYY_HH_MM)
+        @DateTimeValidator(pattern = FORMAT_YYYY_MM_DD_HH_MM)
         @JsonProperty("last_execution_time")
         String lastExecutionTime,
 

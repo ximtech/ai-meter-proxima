@@ -64,6 +64,7 @@ CREATE TABLE IF NOT EXISTS meter.ai_meter_data
     image_name VARCHAR(255) NOT NULL,
     image_size BIGINT NOT NULL,
     image_data BYTEA NOT NULL,
+    image_date TIMESTAMP NOT NULL,
     reading NUMERIC,
 
     FOREIGN KEY (meter_id) REFERENCES meter.ai_meter_device(id)

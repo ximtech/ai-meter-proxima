@@ -22,17 +22,14 @@ spring:
   main:
     web-application-type: reactive
     allow-bean-definition-overriding: false
-  servlet:
-    multipart:
-      max-file-size: 1MB
-      max-request-size: 10MB
-      file-size-threshold: 0B
+  codec:
+    max-in-memory-size: 1MB
 
   datasource:
     hikari:
       minimum-idle: 1
       idle-timeout: 10000
-      maximumPoolSize: 2
+      maximumPoolSize: 10
 
   flyway:
     enabled: true
@@ -102,15 +99,17 @@ ironmq:
   token: ${IRON_MQ_TOKEN}
   host: ${IRON_MQ_HOST}
 
+meter:
+  data:
+    queue:
+      name: ai_meter_data_queue
+    
+
 ip:
   geolocation:
     api:
       key: ${IP_GEOLOCATION_API_KEY}
       
-app:
-  host:
-    name: ${HOST_NAME:http://localhost:${server.port}}
-
 telegram:
   bot:
     name: AiMeter_bot
