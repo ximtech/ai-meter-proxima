@@ -9,10 +9,8 @@ import lombok.experimental.FieldNameConstants;
 @FieldNameConstants(onlyExplicitlyIncluded = true)
 public enum AIMeterSubscriptionType {
 
-    @FieldNameConstants.Include TELEGRAM("Telegram", "telegram_logo.png"),
-    @FieldNameConstants.Include WHATSAPP("Whatsapp", "whatsapp_icon.png");
+    @FieldNameConstants.Include TELEGRAM("Telegram"),
+    @FieldNameConstants.Include WHATSAPP("Whatsapp");
     
     final String displayName;
-    final String iconName;
-    
 }
