@@ -4,6 +4,7 @@ import aimeter.proxima.domain.entity.AIMeterData;
 import aimeter.proxima.domain.entity.AIMeterDevice;
 import aimeter.proxima.domain.repository.AIMeterDataRepository;
 import aimeter.proxima.domain.repository.AIMeterDeviceRepository;
+import aimeter.proxima.domain.repository.AIMeterSubscriptionRepository;
 import aimeter.proxima.dto.AIMeterDataSendRequest;
 import aimeter.proxima.dto.MeterDataQueueMessage;
 import aimeter.proxima.exception.ApiException;
@@ -36,6 +37,7 @@ public class AIMeterDataService {
     String meterDataQueueName;
     
     final AIMeterDeviceRepository aiMeterDeviceRepository;
+    final AIMeterSubscriptionRepository aiMeterSubscriptionRepository;
     final AIMeterDataRepository aiMeterDataRepository;
     final Client ironMQClient;
     
@@ -56,6 +58,11 @@ public class AIMeterDataService {
         LocalDateTime fileDateTime = LocalDateTime.parse(fileDateString, formatter);
 
         AIMeterDevice device = aiMeterDeviceRepository.findRegisteredAIMeterDeviceOrThrow(dataSendRequest.deviceId());
+        boolean isMeterHaveSubscription = aiMeterSubscriptionRepository.existsAIMeterSubscriptionByDevice(device);
+        if (!isMeterHaveSubscription) {
+            throw new ApiException("Meter with id: [%s] do not have any subscriptions".formatted(device.getDeviceId().toString()), HttpStatus.BAD_REQUEST);
+        }
+        
         AIMeterData meterData = persistAttachment(device, dataSendRequest, fileDateTime);
         device.setBatteryLevel(dataSendRequest.batteryLevel());
         aiMeterDeviceRepository.save(device);
