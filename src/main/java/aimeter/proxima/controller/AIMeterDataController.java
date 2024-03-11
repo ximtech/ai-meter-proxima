@@ -1,27 +1,21 @@
 package aimeter.proxima.controller;
 
+import aimeter.proxima.dto.AIMeterDataSendRequest;
 import aimeter.proxima.service.AIMeterDataService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.buffer.DataBuffer;
-import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.FilePart;
-import org.springframework.http.codec.multipart.Part;
-import org.springframework.util.FileSystemUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Schedulers;
 
-import java.io.File;
+import java.util.Objects;
 import java.util.UUID;
 
 @Slf4j
@@ -37,10 +31,12 @@ public class AIMeterDataController {
                                                 @RequestPart("file") FilePart filePart,
                                                 @RequestParam("battery") int batteryLevel) {
         return filePart.content().flatMap((DataBuffer dataBuffer) -> {
-                    byte[] bytes = new byte[dataBuffer.readableByteCount()];
-                    dataBuffer.read(bytes);
-                    aiMeterDataService.handleMeterReceivedData(deviceId, filePart.filename(), bytes, batteryLevel);
-                    return Mono.just("Data successfully saved");
-                }).last();
+            byte[] bytes = new byte[dataBuffer.readableByteCount()];
+            dataBuffer.read(bytes);
+            String contentType = Objects.requireNonNull(filePart.headers().getContentType()).getType();
+            var request = new AIMeterDataSendRequest(deviceId, filePart.filename(), bytes, batteryLevel, contentType);
+            aiMeterDataService.handleMeterReceivedData(request);
+            return Mono.just("Data successfully saved");
+        }).last();
     }
 }

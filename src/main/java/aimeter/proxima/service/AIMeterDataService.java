@@ -4,6 +4,7 @@ import aimeter.proxima.domain.entity.AIMeterData;
 import aimeter.proxima.domain.entity.AIMeterDevice;
 import aimeter.proxima.domain.repository.AIMeterDataRepository;
 import aimeter.proxima.domain.repository.AIMeterDeviceRepository;
+import aimeter.proxima.dto.AIMeterDataSendRequest;
 import aimeter.proxima.dto.MeterDataQueueMessage;
 import aimeter.proxima.exception.ApiException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,36 +39,36 @@ public class AIMeterDataService {
     final AIMeterDataRepository aiMeterDataRepository;
     final Client ironMQClient;
     
-    public void handleMeterReceivedData(UUID deviceId, String imageFileName, byte[] imageBytes, int batteryLevel) {
-        if (imageBytes.length == 0) {
+    public void handleMeterReceivedData(AIMeterDataSendRequest dataSendRequest) {
+        if (dataSendRequest.imageBytes().length == 0) {
             throw new ApiException("Empty file", HttpStatus.BAD_REQUEST);
         }
         
-        if (imageBytes.length > FileUtils.ONE_MB) {
+        if (dataSendRequest.imageBytes().length > FileUtils.ONE_MB) {
             throw new ApiException("File size exceeds maximum limit", HttpStatus.BAD_REQUEST);
         }
         
-        String fileDateString = StringUtils.substringBetween(imageFileName, "photo_", ".jpeg");
+        String fileDateString = StringUtils.substringBetween(dataSendRequest.imageFileName(), "photo_", ".jpeg");
         if (StringUtils.isBlank(fileDateString)) {
             throw new ApiException("Invalid file name", HttpStatus.BAD_REQUEST);
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(IMAGE_FILE_NAME_DATE_TIME_FORMAT);
         LocalDateTime fileDateTime = LocalDateTime.parse(fileDateString, formatter);
 
-        AIMeterDevice device = aiMeterDeviceRepository.findRegisteredAIMeterDeviceOrThrow(deviceId);
-        AIMeterData meterData = persistAttachment(device, imageFileName, imageBytes, fileDateTime);
-        proceedMeterDataToQueue(meterData);
-        device.setBatteryLevel(batteryLevel);
+        AIMeterDevice device = aiMeterDeviceRepository.findRegisteredAIMeterDeviceOrThrow(dataSendRequest.deviceId());
+        AIMeterData meterData = persistAttachment(device, dataSendRequest, fileDateTime);
+        device.setBatteryLevel(dataSendRequest.batteryLevel());
         aiMeterDeviceRepository.save(device);
+        proceedMeterDataToQueue(meterData);
     }
 
     @SneakyThrows
-    private AIMeterData persistAttachment(AIMeterDevice device, String imageFileName, byte[] imageBytes, LocalDateTime fileDateTime) {
+    private AIMeterData persistAttachment(AIMeterDevice device, AIMeterDataSendRequest dataSendRequest, LocalDateTime fileDateTime) {
         AIMeterData meterData = new AIMeterData();
-        meterData.setMimeType("image/jpeg");
-        meterData.setImageName(imageFileName);
-        meterData.setImageSize(imageBytes.length);
-        meterData.setImageData(imageBytes);
+        meterData.setMimeType(dataSendRequest.contentType());
+        meterData.setImageName(dataSendRequest.imageFileName());
+        meterData.setImageSize(dataSendRequest.imageBytes().length);
+        meterData.setImageData(dataSendRequest.imageBytes());
         meterData.setImageDate(fileDateTime);
         meterData.setDevice(device);
         return aiMeterDataRepository.save(meterData);

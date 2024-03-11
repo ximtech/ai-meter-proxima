@@ -57,7 +57,6 @@ CREATE TABLE IF NOT EXISTS meter.ai_meter_data
     id SERIAL PRIMARY KEY,
     version BIGINT NOT NULL DEFAULT 0,
     date_created TIMESTAMP NOT NULL,
-    date_updated TIMESTAMP NOT NULL,
 
     meter_id BIGINT NOT NULL,
     mime_type VARCHAR(255) NOT NULL,
