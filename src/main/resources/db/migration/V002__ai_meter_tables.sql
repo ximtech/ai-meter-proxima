@@ -73,6 +73,7 @@ CREATE TABLE meter.ai_meter_data_transaction
 (
     id SERIAL PRIMARY KEY,
     version BIGINT NOT NULL DEFAULT 0,
+    date_created TIMESTAMP NOT NULL,
 
     status VARCHAR(32) NOT NULL,
     data_id BIGINT NOT NULL,

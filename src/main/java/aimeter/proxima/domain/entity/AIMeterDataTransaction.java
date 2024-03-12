@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 import static aimeter.proxima.domain.entity.BaseEntity.DEFAULT_SCHEMA;
 
@@ -23,6 +26,10 @@ public class AIMeterDataTransaction {
     @Version
     @ColumnDefault("0")
     Long version;
+
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    LocalDateTime dateCreated;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
