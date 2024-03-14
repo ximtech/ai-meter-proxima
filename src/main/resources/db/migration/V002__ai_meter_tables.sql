@@ -78,6 +78,7 @@ CREATE TABLE meter.ai_meter_data_transaction
     status VARCHAR(32) NOT NULL,
     data_id BIGINT NOT NULL,
     subscription_id BIGINT NOT NULL,
+    message TEXT,
 
     FOREIGN KEY (data_id) REFERENCES meter.ai_meter_data(id),
     FOREIGN KEY (subscription_id) REFERENCES meter.ai_meter_subscription(id)

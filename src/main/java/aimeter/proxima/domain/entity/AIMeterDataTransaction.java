@@ -34,6 +34,9 @@ public class AIMeterDataTransaction {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     AIMeterTransactionStatus status;
+
+    @Column
+    String message;
     
     @OneToOne
     @JoinColumn(name = "data_id")

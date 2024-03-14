@@ -13,9 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
-import static aimeter.proxima.utils.DateTimeFormatConstants.FORMAT_YYYY_MM_DD_HH_MM;
+import static aimeter.proxima.utils.DateTimeFormatConstants.YYYY_MM_DD_HH_MM_FORMATTER;
 
 @Slf4j
 @Service
@@ -47,8 +46,7 @@ public class AIMeterRegistrationService {
         AIMeterConfig meterConfig = meterDevice.getMeterConfig();
         meterConfig.setDeviceName(request.deviceName());
         meterConfig.setCronExpression(request.cronExpression());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD_HH_MM);
-        LocalDateTime lastJobExecutionDate = LocalDateTime.parse(request.lastExecutionTime(), formatter);
+        LocalDateTime lastJobExecutionDate = LocalDateTime.parse(request.lastExecutionTime(), YYYY_MM_DD_HH_MM_FORMATTER);
         meterConfig.setLastExecutionTime(lastJobExecutionDate);
         meterConfig.setDeviceTimeZone(request.timeZone());
         aiMeterConfigRepository.save(meterConfig);
