@@ -21,6 +21,8 @@ public record AIMeterCompleteRegistrationRequest(
         @JsonProperty("device_name")
         String deviceName,
 
+        @NotNull(message = "Cron can't be null")
+        @NotBlank(message = "Cron can't be empty")
         @CronValidator
         @JsonProperty("cron_expr")
         String cronExpression,
@@ -31,7 +33,6 @@ public record AIMeterCompleteRegistrationRequest(
         String lastExecutionTime,
 
         @NotNull(message = "Time zone can't be null")
-        @NotBlank(message = "Time zone can't be empty")
         @TimeZoneValidator
         @JsonProperty("time_zone")
         String timeZone

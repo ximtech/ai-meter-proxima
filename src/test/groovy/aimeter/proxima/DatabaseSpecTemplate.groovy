@@ -1,5 +1,6 @@
 package aimeter.proxima
 
+import groovy.sql.Sql
 import groovy.util.logging.Slf4j
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.ApplicationContextInitializer
@@ -42,5 +43,13 @@ class DatabaseSpecTemplate extends Specification {
                     "spring.datasource.password=" + POSTGRE_SQL_CONTAINER.getPassword()
             )
         }
+    }
+    
+    def sqlInstance() {
+        return Sql.newInstance(
+                POSTGRE_SQL_CONTAINER.getJdbcUrl(), 
+                POSTGRE_SQL_CONTAINER.getUsername(), 
+                POSTGRE_SQL_CONTAINER.getPassword()
+        )
     }
 }
