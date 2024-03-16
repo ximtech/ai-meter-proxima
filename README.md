@@ -7,7 +7,7 @@
 
 - Service description ⬜
 - Heroku deployment ✅
-- Integration tests ⬜
+- Integration tests ✅
 
 ### Heroku CLI commands
 
